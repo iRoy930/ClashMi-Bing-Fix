@@ -1,16 +1,37 @@
 # Changelog
 
-## v1.0.2 - Compatibility and matching fix
+## v2.0.0
 
-- 修复部分 Clash Mi JS 环境中的 `SyntaxError: return not in a function` 问题。
-- 不再写死 `飞鸟云` 策略组名称。
-- 支持匹配 `DOMAIN-SUFFIX,bing.com,<任意策略组>`。
-- 使用更基础的 `for` 循环实现，提高 JS 执行兼容性。
-- 更新项目文档。
+### Core-first redesign
 
-## v1.0.0 - Initial release
+- `bing-rule-fix.js` is now the primary product.
+- BAT files are optional helpers, not the patch itself.
+- Removed the fragile clipboard automation from the installer BAT.
+- Installer no longer requires PowerShell or administrator privileges.
+- Installer does not touch Clash Mi internal files.
+- Documentation now clearly distinguishes the tested JS patch from optional Windows helpers.
+- Explicitly avoids claiming unsupported zero-click EXE installation.
 
-- 首个公开版本。
-- 添加 Bing 规则 JS 覆写。
-- 添加 Windows 安装辅助脚本。
-- 添加项目文档和 MIT License。
+### JS behavior
+
+- Removes `DOMAIN-SUFFIX,bing.com,<any policy>`.
+- Does not hard-code `飞鸟云`.
+- Uses a compatibility-oriented `for` loop.
+
+## v1.0.4
+
+- Fixed the Windows BAT clipboard-copy command.
+
+## v1.0.3
+
+- Reworked BAT files for Windows CMD compatibility.
+
+## v1.0.2
+
+- Fixed JS compatibility issue.
+- Removed hard-coded `飞鸟云`.
+- Supports arbitrary policy names.
+
+## v1.0.0
+
+- Initial public release.

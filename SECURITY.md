@@ -1,26 +1,18 @@
 # Security Policy
 
-## Reporting a security issue
+## Script behavior
 
-如果发现本项目存在安全问题，请不要在公开 Issue 中发布敏感信息。
+The JS override only examines `config.rules`.
 
-提交前请删除：
+It removes rules where:
 
-- Subscription URLs
-- Access tokens
-- Account credentials
-- Private configuration files
+- rule type = `DOMAIN-SUFFIX`
+- domain = `bing.com`
 
-本项目设计为不需要任何订阅凭据。
+The policy/group name is not inspected and is not hard-coded.
 
-## Scope
+The script does not intentionally make network requests.
 
-JavaScript 覆写只过滤规则中前两个字段同时为：
+## Reporting
 
-```text
-DOMAIN-SUFFIX,bing.com
-```
-
-第三段策略组名称不写死。
-
-脚本本身不主动执行网络请求，也不会上传配置数据。
+Do not publish subscription URLs, access tokens, passwords, or private configuration in public issues.

@@ -14,7 +14,6 @@ function main(config) {
         }
 
         var parts = rule.split(",");
-
         var ruleType = parts.length > 0 ? parts[0].trim().toUpperCase() : "";
         var domain = parts.length > 1 ? parts[1].trim().toLowerCase() : "";
 
