@@ -42,17 +42,19 @@ bing-rule-fix.js
 
 它应该导入 Clash Mi 的：
 
-**Core Settings → Override → Add Override → JS**
+**核心设置 → 配置覆盖 → 添加覆盖 → JavaScript（JS）**
 
-然后启用该 Override。
+然后启用这个 **JavaScript 配置覆盖**。
 
 如果你的版本提供：
 
-**Append Override to Built-in Override**
+**追加到内置配置覆盖（Append Override to Built-in Override）**
 
 建议同时启用。
 
-## Windows 批处理文件是什么？
+> 不同版本的 Clash Mi 中文界面名称可能略有不同。如果你的界面仍显示英文，请按括号中的英文名称查找。
+
+## Windows 批处理文件（BAT）是什么？
 
 ### 安装补丁.bat
 
@@ -137,15 +139,20 @@ DOMAIN,bing.com,Proxy
 
 不会被这个脚本删除。
 
-## 使用建议
+## 使用步骤
 
-第一次使用时建议：
+第一次使用时，按下面步骤操作：
 
-1. 导入 `bing-rule-fix.js`
-2. 启用 JS Override
-3. 更新一次订阅
-4. 打开 `https://cn.bing.com`
-5. 测试搜索功能
+1. 打开 **Clash Mi → 核心设置 → 配置覆盖（Override）**。
+2. 点击 **添加覆盖（Add Override）**。
+3. 选择 **JavaScript（JS）**。
+4. 导入本项目中的 `bing-rule-fix.js`。
+5. 启用这个 **JavaScript 配置覆盖**。
+6. 如果看到 **追加到内置配置覆盖（Append Override to Built-in Override）**，建议同时启用。
+7. 回到订阅页面，执行一次 **更新订阅**。
+8. 打开 `https://cn.bing.com`，测试 Bing 是否恢复正常。
+
+> **提示：** Clash Mi 不同版本的界面文字可能存在差异。看到英文时，可按照括号里的英文名称定位对应选项。
 
 如果 Bing 恢复正常，说明补丁生效。
 
