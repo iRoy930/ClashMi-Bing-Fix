@@ -1,59 +1,70 @@
-# Clash Mi Bing Rule Fix
+# ClashMi-Bing-Fix
 
-用于修复 Clash Mi 中因订阅规则
+用于修复 Clash Mi 中因特定 `bing.com` 规则导致 Bing / cn.bing.com 无法正常访问的问题。
+
+## 最新版本：v1.0.2
+
+**推荐所有用户使用 v1.0.2。**
+
+v1.0.2 同时包含两个重要修复：
+
+1. 修复部分 Clash Mi JS 执行环境中的 `SyntaxError: return not in a function` 兼容性问题。
+2. 不再把策略组名称写死为 `飞鸟云`，改为兼容任意策略组名称。
+
+## v1.0.2 更新内容
+
+### 1. 修复 JS 兼容性
+
+旧版本使用较复杂的 JavaScript 数组回调写法，在部分 Clash Mi 环境中可能出现：
+
+```text
+SyntaxError: return not in a function
+```
+
+v1.0.2 改用简单的 `for` 循环处理规则，减少对 JS 执行环境特性的依赖。
+
+### 2. 不再写死“飞鸟云”
+
+旧版本针对：
 
 ```text
 DOMAIN-SUFFIX,bing.com,飞鸟云
 ```
 
-导致 Bing / cn.bing.com 无法正常访问的问题。
+但不同订阅可能使用不同策略组名称。
 
-本项目通过 Clash Mi 的 **JS 覆写（JavaScript Override）**，在订阅配置加载后自动移除这一条规则。
+v1.0.2 现在识别：
 
-> 本项目不会修改你的订阅 YAML，不需要提供订阅地址，也不需要把订阅配置上传到 GitHub。
+```text
+DOMAIN-SUFFIX,bing.com,<任意策略组>
+```
 
-## 适用场景
+例如：
 
-如果你的 Clash Mi 出现以下现象，可以尝试本补丁：
+```text
+DOMAIN-SUFFIX,bing.com,飞鸟云
+DOMAIN-SUFFIX,bing.com,Proxy
+DOMAIN-SUFFIX,bing.com,节点选择
+DOMAIN-SUFFIX,bing.com,美国节点
+DOMAIN-SUFFIX,bing.com,DIRECT
+```
 
-- `cn.bing.com` 无法打开
-- Bing 出现 TLS / Handshake 错误
-- 删除 `DOMAIN-SUFFIX,bing.com,飞鸟云` 后恢复正常
-- 订阅更新后问题又回来
+第三段策略组名称不参与判断。
 
 ## 原理
 
-订阅中存在：
+脚本只检查规则的前两个字段：
 
-```yaml
-- 'DOMAIN-SUFFIX,bing.com,飞鸟云'
+```text
+DOMAIN-SUFFIX
+bing.com
 ```
 
-该规则会把 `bing.com` 及其子域名交给 `飞鸟云` 策略组处理。
-
-本项目不改变订阅本身，而是在 Clash Mi 加载配置时过滤掉这一条规则：
-
-```javascript
-function main(config) {
-    if (!Array.isArray(config.rules)) {
-        return config;
-    }
-
-    config.rules = config.rules.filter(function (rule) {
-        if (typeof rule !== "string") {
-            return true;
-        }
-
-        return rule.trim() !== "DOMAIN-SUFFIX,bing.com,飞鸟云";
-    });
-
-    return config;
-}
-```
+符合条件的规则会被移除，其他规则原样保留。
 
 ## 安装
 
-### 方法 A：Windows 快速安装
+### Windows 快速安装
 
 双击：
 
@@ -61,42 +72,15 @@ function main(config) {
 安装补丁.bat
 ```
 
-脚本会：
-
-1. 检查 `bing-rule-fix.js`
-2. 尝试将脚本内容复制到 Windows 剪贴板
-3. 打开脚本所在目录
-4. 然后按照 Clash Mi 当前版本的界面导入/粘贴 JS 覆写
-
-### 方法 B：手动安装
-
-在 Clash Mi 中进入：
+然后在 Clash Mi 中：
 
 ```text
-核心设置
-  ↓
-覆写
-  ↓
-添加覆写
+核心设置 → 覆写 → 添加覆写
 ```
 
-创建一个 JS 类型的覆写。
+创建 JS 类型覆写，将 `bing-rule-fix.js` 导入或粘贴进去。
 
-将：
-
-```text
-bing-rule-fix.js
-```
-
-中的内容导入或粘贴进去。
-
-建议名称：
-
-```text
-Bing Rule Fix
-```
-
-如果界面存在“追加覆写”选项，请选择：
+如果有“追加覆写”选项，选择：
 
 ```text
 内置-覆写
@@ -104,7 +88,9 @@ Bing Rule Fix
 
 保存并启用。
 
-> 不同 Clash Mi 版本的按钮名称可能略有差异，以实际界面为准。
+### 手动安装
+
+直接打开 `bing-rule-fix.js`，复制全部内容，在 Clash Mi 的 JS 覆写编辑器中粘贴并保存。
 
 ## 验证
 
@@ -116,57 +102,51 @@ https://cn.bing.com
 
 如果之前的问题确实来自上述规则，Bing 应恢复正常。
 
-也可以使用 Clash Mi 的网络测试进行验证。
-
 ## 卸载
 
 在 Clash Mi：
 
 ```text
-核心设置
-  ↓
-覆写
-  ↓
-找到 Bing Rule Fix
-  ↓
-停用或删除
+核心设置 → 覆写
 ```
 
-然后可以删除本项目文件夹。
+找到对应的 Bing 修复 JS 覆写，停用或删除即可。
 
-## 安全与隐私
+## 隐私与安全
 
 本补丁：
 
 - 不读取订阅地址
 - 不读取订阅 Token
 - 不读取账号密码
-- 不上传任何配置
+- 不上传 Clash 配置
 - 不修改订阅服务器上的内容
 - 不需要 TUN
 - 不需要修改系统 DNS
 
 脚本只处理 Clash 配置对象中的 `config.rules`。
 
-## 重要说明
+## 适用范围
 
-本项目只针对以下精确规则：
+当前版本针对：
 
 ```text
-DOMAIN-SUFFIX,bing.com,飞鸟云
+DOMAIN-SUFFIX,bing.com,<任意策略组>
 ```
 
-如果你的订阅使用的是其他策略组名称、其他 Bing 规则或其他规则格式，本补丁可能不会生效。
+如果你的订阅使用的是其他 Bing 规则格式，例如：
 
-请不要为了让脚本“更强”而盲目删除所有 Bing 规则；这样可能影响正常的代理策略。
+```text
+DOMAIN,bing.com,...
+```
 
-## 为什么不用直接修改 Clash Mi 内部数据库？
+本补丁不会主动删除。
 
-Clash Mi 的自定义覆写功能本身就是为这类配置修改设计的，而且自定义覆写可以独立于订阅配置存在。
+## 为什么不直接修改 Clash Mi 内部数据库？
 
-直接修改客户端内部数据库或私有存储路径容易受到版本变化影响，也可能导致配置损坏。
+本项目优先使用 Clash Mi 的自定义 JS 覆写功能，而不是修改客户端私有数据库。
 
-因此本项目优先采用官方支持的“自定义覆写 + JS”方式。
+这样更安全，也更不容易因为 Clash Mi 后续版本改变内部存储结构而失效。
 
 ## 项目结构
 
@@ -186,7 +166,7 @@ ClashMi-Bing-Fix/
 当前版本：
 
 ```text
-v1.0.0
+v1.0.2
 ```
 
 ## 反馈问题
@@ -197,12 +177,9 @@ v1.0.0
 - Windows 版本
 - JS 覆写是否已启用
 - Bing 的具体错误信息
-- 是否删除原规则后恢复正常
 
-**请不要在 Issue、截图或日志中公开订阅地址、Token、账号信息或其他私人配置。**
+**请不要公开订阅地址、Token、账号信息或私人配置。**
 
 ## 免责声明
 
 本项目是社区性质的配置修复脚本，与 Clash Mi 官方没有隶属关系。
-
-使用前请自行确认脚本内容。项目作者不对因错误配置、第三方订阅或客户端版本变化造成的问题承担责任。

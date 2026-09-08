@@ -3,13 +3,28 @@ function main(config) {
         return config;
     }
 
-    config.rules = config.rules.filter(function (rule) {
+    var newRules = [];
+
+    for (var i = 0; i < config.rules.length; i++) {
+        var rule = config.rules[i];
+
         if (typeof rule !== "string") {
-            return true;
+            newRules.push(rule);
+            continue;
         }
 
-        return rule.trim() !== "DOMAIN-SUFFIX,bing.com,飞鸟云";
-    });
+        var parts = rule.split(",");
 
+        var ruleType = parts.length > 0 ? parts[0].trim().toUpperCase() : "";
+        var domain = parts.length > 1 ? parts[1].trim().toLowerCase() : "";
+
+        if (ruleType === "DOMAIN-SUFFIX" && domain === "bing.com") {
+            continue;
+        }
+
+        newRules.push(rule);
+    }
+
+    config.rules = newRules;
     return config;
 }

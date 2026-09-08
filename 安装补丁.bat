@@ -1,11 +1,10 @@
 @echo off
 chcp 65001 >nul
 setlocal
-
-title Clash Mi Bing Rule Fix
+title Clash Mi Bing Rule Fix v1.0.2
 
 echo ==========================================
-echo   Clash Mi Bing 规则修复补丁
+echo   Clash Mi Bing 规则修复补丁 v1.0.2
 echo ==========================================
 echo.
 echo 本程序不会修改你的订阅 YAML，也不会读取账号、Token 或订阅地址。
@@ -51,7 +50,5 @@ echo.
 echo 验证方法：
 echo   浏览器打开 https://cn.bing.com
 echo   或在 Clash Mi 网络测试中检查 HTTP 200
-echo.
-echo 详细说明请查看 README.md
 echo.
 pause

@@ -2,24 +2,25 @@
 
 ## Reporting a security issue
 
-If you believe you found a security problem in this project, please do not publish sensitive information in a public Issue.
+如果发现本项目存在安全问题，请不要在公开 Issue 中发布敏感信息。
 
-Before reporting, remove:
+提交前请删除：
 
 - Subscription URLs
 - Access tokens
 - Account credentials
-- Private IP addresses
 - Private configuration files
 
-This project is intentionally designed not to require any subscription credentials.
+本项目设计为不需要任何订阅凭据。
 
 ## Scope
 
-The JavaScript override only filters the exact rule:
+JavaScript 覆写只过滤规则中前两个字段同时为：
 
 ```text
-DOMAIN-SUFFIX,bing.com,飞鸟云
+DOMAIN-SUFFIX,bing.com
 ```
 
-It does not intentionally perform network requests or upload configuration data.
+第三段策略组名称不写死。
+
+脚本本身不主动执行网络请求，也不会上传配置数据。

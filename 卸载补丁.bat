@@ -1,9 +1,9 @@
 @echo off
 chcp 65001 >nul
-title Clash Mi Bing Rule Fix - Uninstall
+title Clash Mi Bing Rule Fix v1.0.2 - Uninstall
 
 echo ==========================================
-echo   Clash Mi Bing 规则修复补丁 - 卸载说明
+echo   Clash Mi Bing 规则修复补丁 v1.0.2 - 卸载说明
 echo ==========================================
 echo.
 echo 本补丁不会直接修改 Clash Mi 内部配置数据库。
