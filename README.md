@@ -1,5 +1,7 @@
 # ClashMi-Bing-Fix
 
+[English](README.md) | [中文说明](README_CN.md)
+
 A small, privacy-friendly JavaScript override for Clash Mi.
 
 ## v2.0.0 — Core-first redesign
